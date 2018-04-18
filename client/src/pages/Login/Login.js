@@ -85,7 +85,7 @@ class Login extends Component {
       //   .post('/auth/login').end((err,res) => {
       //     if(err) {console.log("error")};
       //       console.log(res)
-      API.loginBook().then(res => console.log(res))
+      API.loginUser().then(res => console.log(res))
       .catch(err => console.log(err));
         };
       
