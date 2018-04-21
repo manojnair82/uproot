@@ -5,7 +5,7 @@ const bookSchema = new Schema({
   	title: { type: String, required: true },
   	reporter: { type: String, required: true },
   	summary: String,
-  	component: String,
+  	component: [mongoose.Schema.Types.Mixed],
 	subcomponent: String,
 	severity: String,
 	issueType: String,
