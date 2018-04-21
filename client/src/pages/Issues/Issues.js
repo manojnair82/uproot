@@ -187,7 +187,7 @@ class Issues extends Component {
               <List>
                 {this.state.product.map(book => (
                   <ListItem key={book._id}>
-                    <Link to={"/books/" + book._id}>
+                    <Link to={"/issues/" + book._id}>
                       <strong>
                         {book.title} by {book.reporter}
                       </strong>
