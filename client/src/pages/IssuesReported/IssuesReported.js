@@ -6,9 +6,8 @@ import { Link } from "react-router-dom";
 import { Col, Row, Container } from "../../components/Grid";
 import { List, ListItem } from "../../components/List";
 import { Input, TextArea, FormBtn} from "../../components/Form";
-// import superagent from "superagent";
 
-class Login extends Component {
+class Issues extends Component {
   
   state = {
     product: [],
@@ -29,12 +28,11 @@ class Login extends Component {
   }
 
   loadBooks = () => {
-      // API.getBooks()
-      // .then(res =>
-      //   this.setState({ product: res.data, title: "", reporter: "", summary: "", component: "", subcomponent: "", severity: "", issueType: "" })
-      // )
-      // .catch(err => console.log(err));
-      console.log("Login page loaded");
+      API.getBooks()
+      .then(res =>
+        this.setState({ product: res.data, title: "", reporter: "", summary: "", component: "", subcomponent: "", severity: "", issueType: "" })
+      )
+      .catch(err => console.log(err));
   };
 
   deleteBook = id => {
@@ -68,35 +66,57 @@ class Login extends Component {
         console.log(this.state.component)
     }
   };
-  addsubComponent1 = event => {
+
+  // addComponent = event => {
+  //   event.preventDefault();
+  //   const newComponent = this.state.component;
+  //   console.log("Before: "+this.state.component);
+  //   this.setState({
+  //     component: this.state.component.concat(newComponent )
+  //   });
+  //   console.log("After: "+this.state.component);
+  // }
+
+  addsubComponent = event => {
       event.preventDefault();
-      // superagent
-      //   .post('/auth/login').end((err,res) => {
-      //     if(err) {console.log("error")};
-      //       console.log(res)
-      API.loginBook().then(res => console.log(res))
-      .catch(err => console.log(err));
-        };
+      var currentcontent = this.state.subcomponent.trim();      
+      this.state.newArray.push({
+        content: currentcontent, 
+        id: ++this.lastId 
+      });
+      this.setState({
+        subcomponent: ""
+      }); 
+       console.log(this.state.newArray);
+       console.log(this.state.subcomponent);
+       console.log(this.state);
+  }
+
 
   render() {
-    // var style = {},
     return (
       <Container fluid>
         <Row>
           <Col size="md-12 sm-12">
-          <main>
-            <center><a href="http://localhost:3001/auth/google"> <img src="http://res.cloudinary.com/deuxif1bt/image/upload/v1524289618/google-.jpg" alt="Cinque Terre" width="350px" height="70px"></img></a>
-              <a href="http://localhost:3001/auth/facebook"> <img src="http://res.cloudinary.com/deuxif1bt/image/upload/v1524289618/facebook-sign-in-button.png" alt="Cinque Terre" width="400px" height="150px"></img></a></center>
-            </main>
-            <div style = {{
-                align: "center",
-                width: "100%",
-                height: "600px",
-                opacity: "0.5",
-                backgroundSize: "cover",
-                backgroundImage: "url('http://res.cloudinary.com/deuxif1bt/image/upload/v1524194273/uproot_logo-01.png')"
-              }}>
-            </div>
+            <Jumbotron>
+              <h1>Issues Reported</h1>
+            </Jumbotron>
+            {this.state.product.length ? (
+              <List>
+                {this.state.product.map(book => (
+                  <ListItem key={book._id}>
+                    <Link to={"/issues/" + book._id}>
+                      <strong>
+                        {book.title} by {book.reporter}
+                      </strong>
+                    </Link>
+                    <DeleteBtn onClick={() => this.deleteBook(book._id)} />
+                  </ListItem>
+                ))}
+              </List>
+            ) : (
+              <h3>No Results to Display</h3>
+            )}
           </Col>
         </Row>
       </Container>
@@ -104,4 +124,4 @@ class Login extends Component {
   }
 }
 
-export default Login;
+export default Issues;
